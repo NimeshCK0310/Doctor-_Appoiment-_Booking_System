@@ -9,9 +9,11 @@ import MyProfile from './pages/MyProfile'
 import MyAppoiments from './pages/MyAppoiments'
 import Appoiments from './pages/Appoiments'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
+
     <div className = 'mx-4 sm:mx-[10%]'>
       <Navbar />
       <Routes>
@@ -25,13 +27,8 @@ const App = () => {
         <Route path='/my-appoiments' element= {<MyAppoiments />}/>
         <Route path='/appoiments/:docId' element= {<Appoiments />}/>
 
-
-
-
-
-
-
       </Routes>
+      <Footer />
     
     </div>
   )
