@@ -9,16 +9,47 @@ const Appoiments = () => {
   const {doctors,currencySymbol} = useContext(AppContext)
 
   const [docInfo, setDocInfo] = useState(null)
+  const[docSlots,setDocSlots] = useState([])
+  const [slotIndex,setSlotIndex] = useState(0)
+  const[slotTime,setSlotTime] = useState('')
 
   const fetchDocInfo = async () => {
     const docInfo = doctors.find(doc => doc._id === docId)
     setDocInfo(docInfo)
-    console.log(docInfo)
+
+  }
+
+  const getAvailableSlots = async  ()=> {
+      setDocSlots([])
+
+      //getting Current date
+      let today = new Date()
+
+      for (let i =0; i< 7; i++){
+        //getting date with index
+        let currentDate = new Date(today)
+        currentDate.setDate(today.getDate()+i)
+
+        //setting end time of the  date with index
+        let endTime = new Date()
+        endTime.setDate(today.getDate()+1) 
+        endTime.setHours(21,0,0,0)
+
+        // setting Hours 
+        if(today.getDate() ===currentDate.getDate()){
+          currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours()+ 1 : 10)
+        }
+      }
   }
 
   useEffect(() => {
     fetchDocInfo()
   }, [doctors, docId])
+
+  useEffect(()=> {
+     getAvailableSlots()
+
+  }, [docInfo])
 
   return docInfo &&  (
     <div>
@@ -44,8 +75,8 @@ const Appoiments = () => {
               </p>
               <p className='text-sm text-gray-500 max-w-[700px] mt-1 '>{docInfo.about}</p>
              </div>
-             <p>
-              appoiment fee : <span>{currencySymbol}{docInfo.fees}</span>
+             <p className='text-gray-500 font-medium mt-4'>
+              appoiment fee : <span className='text-gray-600'>{currencySymbol}{docInfo.fees}</span>
              </p>
           </div>
       
