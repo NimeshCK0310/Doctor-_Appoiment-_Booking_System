@@ -32,13 +32,35 @@ const Appoiments = () => {
 
         //setting end time of the  date with index
         let endTime = new Date()
-        endTime.setDate(today.getDate()+1) 
+        endTime.setDate(today.getDate()+i) 
         endTime.setHours(21,0,0,0)
 
         // setting Hours 
         if(today.getDate() ===currentDate.getDate()){
           currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours()+ 1 : 10)
+          currentDate.setMinutes (currentDate.getMinutes() > 30 ? 30 : 0)
+        } else {
+          currentDate.setHours(10)
+          currentDate.setMinutes(0)
         }
+
+        while (currentDate < endTime){
+          let formattedTime = currentDate.toLocaleDateString([], {hour: '2-digit',minute : '2-digit'})
+
+          //add slot to array
+          timeSlot.push({
+            datetime : new Date(currentDate),
+            time : formattedTime
+          })
+
+          //increment current time by 30 minutes
+          currentDate.setMinutes(currentDate.getMinutes()+ 30)
+        }
+
+
+        setDocSlots(prev => ([...prev, timeSlot]))
+
+
       }
   }
 
@@ -50,6 +72,10 @@ const Appoiments = () => {
      getAvailableSlots()
 
   }, [docInfo])
+
+  useEffect(()=>{
+    console.log(docSlots)
+  },[docSlots] )
 
   return docInfo &&  (
     <div>
