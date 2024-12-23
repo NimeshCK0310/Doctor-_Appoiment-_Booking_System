@@ -7,6 +7,7 @@ const Appoiments = () => {
 
   const {docId} = useParams()
   const {doctors,currencySymbol} = useContext(AppContext)
+  const daysOFWeek =['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
   const [docInfo, setDocInfo] = useState(null)
   const[docSlots,setDocSlots] = useState([])
@@ -106,6 +107,23 @@ const Appoiments = () => {
              </p>
           </div>
       
+        </div>
+
+        {/* -------------- Booking slots ------------ */}
+        <div className='sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700'>
+          <p>Booking slots</p>
+          <div>
+            {
+              docSlots.length && docSlots.map((item,index)=> (
+                <div key={index}>
+                  <p>{item[0] && daysOFWeek[item[0].datetime.getDay()]}</p>
+                  <p>{item[0] && item[0].datetime.getDate()}</p>
+
+                </div>
+              ))
+            }
+          </div>
+
         </div>
     </div>
   )
